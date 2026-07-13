@@ -12,7 +12,94 @@ type Post = {
   readTime: string;
   number: string;
   featured?: boolean;
+  href?: string;
 };
+
+type CppTopic = {
+  number: string;
+  title: string;
+  focus: string;
+  clientUse: string;
+};
+
+type CppStage = {
+  id: string;
+  label: string;
+  title: string;
+  note: string;
+  topics: CppTopic[];
+};
+
+const cppStages: CppStage[] = [
+  {
+    id: "ownership",
+    label: "STAGE 01",
+    title: "对象与资源管理",
+    note: "先把生命周期和所有权学扎实，才能安全地管理纹理、文件、句柄与场景对象。",
+    topics: [
+      { number: "01", title: "对象生命周期", focus: "初始化方式、存储期、构造与析构顺序", clientUse: "判断场景对象、组件和资源句柄何时创建与释放" },
+      { number: "02", title: "拷贝构造、拷贝赋值、析构", focus: "Rule of Three、Five 与 Zero", clientUse: "正确封装纹理、缓冲区等不可随意复制的资源" },
+      { number: "03", title: "左值、右值、移动语义", focus: "值类别、std::move 与资源转移", clientUse: "把临时帧数据和加载结果低成本送入队列" },
+      { number: "04", title: "RAII 和所有权", focus: "用对象生命周期自动管理资源", clientUse: "封装文件、锁、Socket 和图形 API 句柄" },
+      { number: "05", title: "智能指针", focus: "unique_ptr、shared_ptr、weak_ptr", clientUse: "区分实体拥有关系与事件系统中的弱观察关系" },
+    ],
+  },
+  {
+    id: "object-model",
+    label: "STAGE 02",
+    title: "对象模型与回调",
+    note: "理解动态派发、对象布局与回调成本，构建清晰而不过度抽象的客户端接口。",
+    topics: [
+      { number: "06", title: "继承、多态、虚析构", focus: "动态派发与多态删除", clientUse: "设计可安全扩展的组件、渲染对象和状态接口" },
+      { number: "07", title: "虚表、多继承与对象布局", focus: "虚指针、基类子对象与指针调整", clientUse: "理解引擎 ABI、序列化与对象尺寸成本" },
+      { number: "08", title: "Lambda、函数对象、std::function", focus: "捕获、类型擦除与调用开销", clientUse: "实现输入回调、事件总线和异步任务完成通知" },
+    ],
+  },
+  {
+    id: "generic",
+    label: "STAGE 03",
+    title: "STL 与泛型编程",
+    note: "选择合适的数据结构，并用现代 C++ 把可复用能力放进编译期约束中。",
+    topics: [
+      { number: "09", title: "STL 容器与迭代器失效", focus: "容器结构、复杂度与失效规则", clientUse: "为 ECS、场景树和热路径数据选择合适存储" },
+      { number: "10", title: "泛型算法与迭代器体系", focus: "算法、容器与迭代器能力", clientUse: "整理资源列表、实体筛选和数据转换流程" },
+      { number: "11", title: "模板推导、特化、可变参数", focus: "模板推导、偏特化与折叠表达式", clientUse: "构建组件系统、数学类型和通用消息分发" },
+      { number: "12", title: "类型萃取、SFINAE、Concepts", focus: "编译期类型信息与接口约束", clientUse: "让渲染与资源接口在编译期暴露错误" },
+      { number: "13", title: "引用折叠与完美转发", focus: "转发引用和 std::forward", clientUse: "工厂创建组件时保留参数值类别并减少拷贝" },
+    ],
+  },
+  {
+    id: "toolchain",
+    label: "STAGE 04",
+    title: "构建与底层语义",
+    note: "从异常保证一路下潜到链接和内存布局，掌握客户端工程最常见的底层边界。",
+    topics: [
+      { number: "14", title: "异常安全与 noexcept", focus: "基本、强与不抛异常保证", clientUse: "保护帧循环稳定性，并理解容器扩容时的移动选择" },
+      { number: "15", title: "编译、链接、ODR、动态库", focus: "从源码到可执行文件的完整链路", clientUse: "拆分引擎模块、插件和平台动态库" },
+      { number: "16", title: "内存布局、对齐与未定义行为", focus: "padding、悬垂引用、越界与严格别名", clientUse: "对齐 GPU 缓冲区和网络数据，并用 Sanitizer 查错" },
+    ],
+  },
+  {
+    id: "performance",
+    label: "STAGE 05",
+    title: "并发与性能",
+    note: "性能优化从证据出发：先理解同步与缓存，再讨论任务系统、对象池和无锁结构。",
+    topics: [
+      { number: "17", title: "多线程、锁、条件变量", focus: "线程同步、临界区与谓词等待", clientUse: "实现资源异步加载、任务系统和线程安全队列" },
+      { number: "18", title: "原子操作与 C++ 内存模型", focus: "data race、happens-before 与 memory order", clientUse: "处理渲染/逻辑线程间的状态同步和轻量队列" },
+      { number: "19", title: "CPU 缓存、对象池、内存池", focus: "局部性、false sharing 与分配开销", clientUse: "稳定帧时间，降低高频实体与粒子分配成本" },
+    ],
+  },
+  {
+    id: "architecture",
+    label: "STAGE 06",
+    title: "工程设计",
+    note: "把模式当成依赖与生命周期的语言，而不是需要背诵的类图。",
+    topics: [
+      { number: "20", title: "工程设计与设计模式", focus: "策略、观察者、工厂、RAII Guard 与 PImpl", clientUse: "拆分渲染后端、输入系统、游戏状态和平台层边界" },
+    ],
+  },
+];
 
 const categories: { name: Category; mark: string; note: string }[] = [
   { name: "全部", mark: "✦", note: "所有连载" },
@@ -24,13 +111,22 @@ const categories: { name: Category; mark: string; note: string }[] = [
 
 const posts: Post[] = [
   {
+    category: "学习笔记",
+    title: "游戏客户端 C++：从对象生命周期到工程设计",
+    excerpt: "整理自 Notion「知识库」的 20 个 C++ 主题，并把每个知识点映射到资源管理、事件回调、帧循环性能和客户端架构。",
+    date: "2026.07.13",
+    readTime: "12 分钟",
+    number: "EP. 022",
+    featured: true,
+    href: "#cpp-roadmap",
+  },
+  {
     category: "求职手记",
     title: "前端面试地图：从基础到现场",
     excerpt: "把零散的面试题重新整理成一张可执行的路线图：基础、工程化、浏览器与现场表达。",
     date: "2026.07.12",
     readTime: "8 分钟",
     number: "EP. 021",
-    featured: true,
   },
   {
     category: "项目复盘",
@@ -77,6 +173,9 @@ const posts: Post[] = [
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category>("全部");
   const [query, setQuery] = useState("");
+  const [activeCppStage, setActiveCppStage] = useState(cppStages[0].id);
+
+  const currentCppStage = cppStages.find((stage) => stage.id === activeCppStage) ?? cppStages[0];
 
   const filteredPosts = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -107,11 +206,12 @@ export default function Home() {
           </span>
         </a>
         <nav aria-label="主导航">
+          <a href="#cpp-roadmap">C++ 路线</a>
           <a href="#latest">最新笔记</a>
           <a href="#channels">内容频道</a>
           <a href="#about">关于我</a>
         </nav>
-        <a className="header-cta" href="#latest">开始阅读 <span aria-hidden="true">↗</span></a>
+        <a className="header-cta" href="#cpp-roadmap">开始学习 <span aria-hidden="true">↗</span></a>
       </header>
 
       <section className="hero" id="top" aria-labelledby="hero-title">
@@ -125,11 +225,11 @@ export default function Home() {
             还有那些在深夜慢慢长成的故事。
           </p>
           <div className="hero-actions">
-            <a className="primary-action" href="#latest">阅读最新篇章 <span aria-hidden="true">→</span></a>
+            <a className="primary-action" href="#cpp-roadmap">查看 C++ 路线 <span aria-hidden="true">→</span></a>
             <a className="text-action" href="#about">先认识 LemonLC</a>
           </div>
           <div className="mini-stats" aria-label="博客统计">
-            <span><strong>24</strong> 篇记录</span>
+            <span><strong>25</strong> 篇记录</span>
             <span><strong>04</strong> 个频道</span>
             <span><strong>∞</strong> 持续更新</span>
           </div>
@@ -140,7 +240,7 @@ export default function Home() {
           <article className="feature-paper">
             <div className="paper-topline">
               <span>本周推荐</span>
-              <span>NO. 021</span>
+              <span>NO. 022</span>
             </div>
             <div className="feature-illustration" aria-hidden="true">
               <span className="sun-disc" />
@@ -153,14 +253,14 @@ export default function Home() {
               <span className="spark spark-a">✦</span>
               <span className="spark spark-b">✧</span>
             </div>
-            <p className="feature-kicker">CAREER NOTE / 08 MIN</p>
-            <h2>前端面试地图：<br />从基础到现场</h2>
-            <p>把焦虑变成路线，把准备变成一次可以回看的成长记录。</p>
+            <p className="feature-kicker">C++ ROADMAP / GAME CLIENT</p>
+            <h2>从对象生命周期<br />到客户端架构</h2>
+            <p>把 Notion 里的 20 个 C++ 主题，整理成一条面向游戏客户端的成长路线。</p>
           </article>
           <aside className="margin-note">
             <span aria-hidden="true">♡</span>
             <strong>今日状态</strong>
-            <p>在准备下一次面试，也在认真写故事。</p>
+            <p>在学习现代 C++，也在搭建自己的游戏客户端知识树。</p>
           </aside>
           <div className="round-sticker" aria-hidden="true">NEW<br />NOTE</div>
           <div className="tape tape-bottom" aria-hidden="true" />
@@ -193,6 +293,81 @@ export default function Home() {
               <span className="channel-arrow" aria-hidden="true">↗</span>
             </button>
           ))}
+        </div>
+      </section>
+
+      <section className="cpp-roadmap" id="cpp-roadmap" aria-labelledby="cpp-roadmap-title">
+        <div className="cpp-roadmap-intro">
+          <div>
+            <p className="eyebrow">NOTION KNOWLEDGE BASE · C++</p>
+            <h2 id="cpp-roadmap-title">游戏客户端 C++ 成长路线</h2>
+            <p>
+              从 Notion「知识库」整理而来。按照语言语义、资源管理、泛型、底层、并发性能与工程设计逐层推进，
+              每个知识点都对应一个真实的游戏客户端使用场景。
+            </p>
+          </div>
+          <div className="cpp-roadmap-stats" aria-label="C++ 学习路线统计">
+            <span><strong>20</strong><small>核心主题</small></span>
+            <span><strong>06</strong><small>学习阶段</small></span>
+            <span><strong>C++</strong><small>客户端方向</small></span>
+          </div>
+        </div>
+
+        <div className="cpp-stage-tabs" role="tablist" aria-label="C++ 学习阶段">
+          {cppStages.map((stage) => (
+            <button
+              type="button"
+              role="tab"
+              key={stage.id}
+              id={`tab-${stage.id}`}
+              aria-selected={activeCppStage === stage.id}
+              aria-controls={`panel-${stage.id}`}
+              className={activeCppStage === stage.id ? "cpp-stage-tab active" : "cpp-stage-tab"}
+              onClick={() => setActiveCppStage(stage.id)}
+            >
+              <span>{stage.label}</span>
+              <strong>{stage.title}</strong>
+            </button>
+          ))}
+        </div>
+
+        <div
+          className="cpp-stage-panel"
+          id={`panel-${currentCppStage.id}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${currentCppStage.id}`}
+        >
+          <div className="cpp-stage-heading">
+            <div>
+              <span>{currentCppStage.label}</span>
+              <h3>{currentCppStage.title}</h3>
+            </div>
+            <p>{currentCppStage.note}</p>
+          </div>
+          <div className="cpp-topic-grid">
+            {currentCppStage.topics.map((topic) => (
+              <article className="cpp-topic-card" key={topic.number}>
+                <div className="cpp-topic-number">C++ / {topic.number}</div>
+                <h4>{topic.title}</h4>
+                <dl>
+                  <div>
+                    <dt>学习重点</dt>
+                    <dd>{topic.focus}</dd>
+                  </div>
+                  <div>
+                    <dt>客户端连接</dt>
+                    <dd>{topic.clientUse}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="cpp-roadmap-footnote">
+          <span aria-hidden="true">✦</span>
+          <p><strong>学习节奏：</strong>第一轮建立概念与最小样例，第二轮补代码实验，第三轮结合项目与面试题形成可复述答案。</p>
+          <a href="#latest">查看学习笔记 <span aria-hidden="true">↓</span></a>
         </div>
       </section>
 
@@ -246,9 +421,15 @@ export default function Home() {
                   <h3>{post.title}</h3>
                   <p>{post.excerpt}</p>
                 </div>
-                <button type="button" className="read-button" aria-label={`阅读《${post.title}》`}>
-                  <span aria-hidden="true">→</span>
-                </button>
+                {post.href ? (
+                  <a className="read-button" href={post.href} aria-label={`阅读《${post.title}》`}>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                ) : (
+                  <button type="button" className="read-button" aria-label={`阅读《${post.title}》`}>
+                    <span aria-hidden="true">→</span>
+                  </button>
+                )}
               </article>
             ))}
           </div>
@@ -280,7 +461,7 @@ export default function Home() {
           <p className="eyebrow">ABOUT THE AUTHOR</p>
           <h2 id="about-title">你好，我是 LemonLC。</h2>
           <p className="about-lead">
-            一个正在找工作、持续学习，也没有放弃写故事的人。
+            一个正在走向游戏客户端开发、持续学习，也没有放弃写故事的人。
           </p>
           <p>
             我相信复盘不是为了责怪过去的自己，而是为了让下一次选择更清醒；
@@ -289,7 +470,7 @@ export default function Home() {
           <div className="status-strip">
             <span className="status-dot" aria-hidden="true" />
             <span><small>NOW</small> 求职准备中</span>
-            <span><small>LEARNING</small> 前端工程化</span>
+            <span><small>LEARNING</small> C++ · 游戏客户端</span>
             <span><small>WRITING</small> 《雾港来信》</span>
           </div>
         </div>

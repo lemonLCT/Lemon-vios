@@ -71,7 +71,7 @@ button { color: inherit; }
 }
 .eyebrow { margin: 0 0 20px; color: var(--rose); font: 700 11px/1.4 Consolas, monospace; letter-spacing: .15em; text-transform: uppercase; }
 .eyebrow span { color: var(--wine); }
-.hero h1, .section-heading h2, .about h2, .newsletter h2 {
+.hero h1, .section-heading h2, .cpp-roadmap h2, .about h2, .newsletter h2 {
   font-family: Georgia, "Noto Serif CJK SC", "Songti SC", serif; color: var(--wine); margin: 0;
 }
 .hero h1 { font-size: clamp(48px, 5.25vw, 78px); line-height: 1.1; font-weight: 500; letter-spacing: -.055em; }
@@ -120,11 +120,11 @@ button { color: inherit; }
 .petal-one { left: 49%; top: 90px; }
 .petal-two { right: 3%; bottom: 110px; transform: rotate(-15deg) scale(.7); }
 
-.channels, .latest, .about, .newsletter { max-width: 1320px; margin: 0 auto; }
+.channels, .cpp-roadmap, .latest, .about, .newsletter { max-width: 1320px; margin: 0 auto; }
 .channels { padding: 88px 55px 100px; border-top: 1px solid var(--line); }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 38px; }
 .section-heading .eyebrow { margin-bottom: 8px; }
-.section-heading h2, .about h2, .newsletter h2 { font-size: clamp(34px, 3.3vw, 48px); line-height: 1.15; font-weight: 500; letter-spacing: -.035em; }
+.section-heading h2, .cpp-roadmap h2, .about h2, .newsletter h2 { font-size: clamp(34px, 3.3vw, 48px); line-height: 1.15; font-weight: 500; letter-spacing: -.035em; }
 .section-heading > p { max-width: 330px; color: var(--muted); font-size: 13px; line-height: 1.7; text-align: right; }
 .channel-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: var(--paper); box-shadow: var(--shadow); }
 .channel-card { min-height: 246px; position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: 29px; border: 0; border-right: 1px solid var(--line); background: transparent; cursor: pointer; text-align: left; overflow: hidden; transition: background .2s ease, transform .2s ease; }
@@ -136,6 +136,53 @@ button { color: inherit; }
 .channel-card strong { color: var(--wine); font: 600 22px/1.2 Georgia, "Songti SC", serif; }
 .channel-card small { margin-top: 8px; color: var(--muted); font-size: 11px; }
 .channel-arrow { position: absolute; right: 26px; bottom: 29px; color: var(--wine); }
+
+.cpp-roadmap {
+  padding: 84px 55px 72px; color: white; position: relative; overflow: hidden;
+  background:
+    radial-gradient(circle at 88% 7%, rgba(233,155,173,.2), transparent 22rem),
+    linear-gradient(145deg, #713047, #4b1f2e 70%);
+  box-shadow: var(--shadow);
+}
+.cpp-roadmap::before {
+  content: "C++"; position: absolute; right: -30px; top: -36px; color: rgba(255,255,255,.035);
+  font: 800 210px/1 Consolas, monospace; letter-spacing: -.12em; pointer-events: none;
+}
+.cpp-roadmap-intro { position: relative; display: grid; grid-template-columns: 1.2fr .8fr; gap: 70px; align-items: end; margin-bottom: 48px; }
+.cpp-roadmap .eyebrow { color: var(--pink); margin: 0 0 10px; }
+.cpp-roadmap h2 { color: white; }
+.cpp-roadmap-intro > div:first-child > p:last-child { max-width: 710px; margin: 23px 0 0; color: rgba(255,255,255,.68); font-size: 13px; line-height: 1.9; }
+.cpp-roadmap-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255,255,255,.22); border-bottom: 1px solid rgba(255,255,255,.22); }
+.cpp-roadmap-stats span { min-height: 88px; display: flex; flex-direction: column; justify-content: center; padding: 15px 18px; border-right: 1px solid rgba(255,255,255,.16); }
+.cpp-roadmap-stats span:last-child { border-right: 0; }
+.cpp-roadmap-stats strong { color: var(--pink); font: 500 27px/1 Georgia, serif; }
+.cpp-roadmap-stats small { margin-top: 8px; color: rgba(255,255,255,.55); font-size: 9px; letter-spacing: .09em; }
+.cpp-stage-tabs { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid rgba(255,255,255,.2); }
+.cpp-stage-tab { min-height: 92px; padding: 16px 14px; border: 0; border-right: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.025); color: rgba(255,255,255,.72); text-align: left; cursor: pointer; transition: background .18s ease, color .18s ease, transform .18s ease; }
+.cpp-stage-tab:last-child { border-right: 0; }
+.cpp-stage-tab span { display: block; margin-bottom: 10px; color: var(--pink); font: 700 8px/1 Consolas, monospace; letter-spacing: .12em; }
+.cpp-stage-tab strong { font: 600 12px/1.5 "Microsoft YaHei UI", sans-serif; }
+.cpp-stage-tab:hover, .cpp-stage-tab:focus-visible, .cpp-stage-tab.active { color: var(--wine); background: var(--pink-pale); transform: translateY(-4px); }
+.cpp-stage-tab:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+.cpp-stage-panel { min-height: 440px; padding: 40px; background: var(--paper); color: var(--ink); }
+.cpp-stage-heading { display: grid; grid-template-columns: .7fr 1.3fr; gap: 50px; align-items: end; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.cpp-stage-heading span { color: var(--rose); font: 700 9px/1 Consolas, monospace; letter-spacing: .13em; }
+.cpp-stage-heading h3 { margin: 9px 0 0; color: var(--wine); font: 600 30px/1.2 Georgia, "Songti SC", serif; }
+.cpp-stage-heading p { max-width: 650px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.85; }
+.cpp-topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 1px; margin-top: 28px; background: var(--line); border: 1px solid var(--line); }
+.cpp-topic-card { min-height: 260px; padding: 25px; background: var(--paper); transition: background .18s ease, transform .18s ease; }
+.cpp-topic-card:hover { position: relative; background: var(--pink-pale); transform: translateY(-3px); }
+.cpp-topic-number { color: var(--rose); font: 700 9px/1 Consolas, monospace; letter-spacing: .12em; }
+.cpp-topic-card h4 { min-height: 54px; margin: 14px 0 18px; color: var(--wine); font: 600 19px/1.45 Georgia, "Songti SC", serif; }
+.cpp-topic-card dl, .cpp-topic-card dd { margin: 0; }
+.cpp-topic-card dl > div + div { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.cpp-topic-card dt { color: var(--rose); font: 700 8px/1.4 Consolas, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.cpp-topic-card dd { margin-top: 5px; color: var(--muted); font-size: 10px; line-height: 1.7; }
+.cpp-roadmap-footnote { position: relative; display: grid; grid-template-columns: 34px 1fr auto; gap: 14px; align-items: center; padding: 24px 0 0; color: rgba(255,255,255,.68); }
+.cpp-roadmap-footnote > span { color: var(--pink); font-size: 24px; }
+.cpp-roadmap-footnote p { margin: 0; font-size: 11px; line-height: 1.75; }
+.cpp-roadmap-footnote strong { color: white; }
+.cpp-roadmap-footnote a { padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,.45); color: white; font-size: 11px; }
 
 .latest { padding: 98px 55px 110px; }
 .latest-heading { align-items: center; }
@@ -157,7 +204,7 @@ button { color: inherit; }
 .post-meta span:first-child { color: var(--rose); }
 .post-content h3 { margin: 14px 0 10px; color: var(--wine); font: 600 clamp(22px,2vw,29px)/1.3 Georgia, "Songti SC", serif; }
 .post-content p { max-width: 720px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
-.read-button { width: 44px; height: 44px; border: 1px solid var(--wine); border-radius: 50%; background: transparent; color: var(--wine); cursor: pointer; font-size: 20px; transition: all .18s ease; }
+.read-button { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--wine); border-radius: 50%; background: transparent; color: var(--wine); cursor: pointer; font-size: 20px; transition: all .18s ease; }
 .post-card:hover .read-button, .read-button:hover { color: white; background: var(--wine); transform: rotate(-12deg); }
 .empty-state { padding: 80px 20px; text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .empty-state > span { color: var(--pink); font-size: 42px; }
@@ -220,6 +267,10 @@ footer p:nth-child(2) { text-align: center; } footer p:last-child { text-align: 
   .channel-grid { grid-template-columns: repeat(2,1fr); }
   .channel-card:nth-child(2) { border-right: 0; }
   .channel-card:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .cpp-roadmap-intro { grid-template-columns: 1fr; gap: 30px; }
+  .cpp-stage-tabs { grid-template-columns: repeat(3, 1fr); }
+  .cpp-stage-tab:nth-child(3n) { border-right: 0; }
+  .cpp-stage-tab:nth-child(-n+3) { border-bottom: 1px solid rgba(255,255,255,.16); }
   .about { grid-template-columns: .7fr 1.3fr; }
   .about blockquote { grid-column: 1 / -1; text-align: center; border-left: 0; border-top: 1px solid rgba(103,40,58,.16); padding: 28px 0 0; }
 }
@@ -241,6 +292,21 @@ footer p:nth-child(2) { text-align: center; } footer p:last-child { text-align: 
   .margin-note { left: -7px; bottom: 0; }
   .round-sticker { width: 68px; height: 68px; right: -8px; }
   .channels, .latest { padding: 72px 22px 78px; }
+  .cpp-roadmap { margin: 0 12px; padding: 66px 22px 54px; }
+  .cpp-roadmap::before { right: -18px; top: -14px; font-size: 100px; }
+  .cpp-roadmap-intro { margin-bottom: 34px; }
+  .cpp-roadmap-stats span { min-height: 78px; padding: 12px 10px; }
+  .cpp-roadmap-stats strong { font-size: 21px; }
+  .cpp-stage-tabs { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .cpp-stage-tab { min-width: 150px; border-bottom: 0 !important; scroll-snap-align: start; }
+  .cpp-stage-panel { min-height: 0; padding: 27px 18px; }
+  .cpp-stage-heading { grid-template-columns: 1fr; gap: 15px; align-items: start; }
+  .cpp-stage-heading h3 { font-size: 25px; }
+  .cpp-topic-grid { grid-template-columns: 1fr; }
+  .cpp-topic-card { min-height: 0; }
+  .cpp-topic-card h4 { min-height: 0; }
+  .cpp-roadmap-footnote { grid-template-columns: 26px 1fr; }
+  .cpp-roadmap-footnote a { grid-column: 2; justify-self: start; }
   .section-heading { align-items: flex-start; flex-direction: column; gap: 15px; }
   .section-heading > p { margin: 0; text-align: left; }
   .channel-grid { grid-template-columns: 1fr; }
