@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: "LemonLC'Blog",
     title,
     description,
-    images: [{ url: `${siteUrl}/og.png`, width: 1536, height: 1024, alt: "LemonLC'Blog 樱花日记风格预览" }],
+    images: [{ url: `${siteUrl}/og.png`, width: 1536, height: 1024, alt: "LemonLC'Blog 淡蓝科技风格预览" }],
   },
   twitter: {
     card: "summary_large_image",

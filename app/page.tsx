@@ -10,11 +10,20 @@ export default function Home() {
       <SiteHeader active="home" />
 
       <section className="hero" id="top" aria-labelledby="hero-title">
-        <div className="floating-petal petal-one" aria-hidden="true" />
-        <div className="floating-petal petal-two" aria-hidden="true" />
+        <div className="hero-visual" aria-hidden="true">
+          <span className="hero-orbit orbit-one" />
+          <span className="hero-orbit orbit-two" />
+          <span className="hero-orbit orbit-three" />
+          <span className="hero-axis axis-horizontal" />
+          <span className="hero-axis axis-vertical" />
+          <span className="hero-monogram">LC</span>
+          <span className="hero-node node-one" />
+          <span className="hero-node node-two" />
+          <span className="hero-node node-three" />
+        </div>
         <div className="hero-copy">
-          <p className="eyebrow"><span>LEMONLC&apos;S NOTEBOOK</span> 个人主页</p>
-          <h1 id="hero-title">你好，我是 LemonLC。<br /><em>欢迎来到我的长期连载。</em></h1>
+          <p className="eyebrow"><span>LEMONLC / PERSONAL ARCHIVE</span> EST. 2026</p>
+          <h1 id="hero-title">你好，我是 LemonLC。<br /><em>在技术与想象之间持续探索。</em></h1>
           <p className="hero-intro">
             我正在走向游戏客户端开发，持续学习现代 C++，也没有放弃写故事。
             这里是我的个人主页，也是求职、学习、项目与创作记录的入口。
@@ -29,37 +38,7 @@ export default function Home() {
             <span><strong>∞</strong> 持续更新</span>
           </div>
         </div>
-
-        <div className="hero-collage" aria-label="个人主页内容预览">
-          <div className="tape tape-top" aria-hidden="true" />
-          <article className="feature-paper">
-            <div className="paper-topline">
-              <span>PERSONAL FILE</span>
-              <span>NO. 001</span>
-            </div>
-            <div className="feature-illustration" aria-hidden="true">
-              <span className="sun-disc" />
-              <span className="window-line line-a" />
-              <span className="window-line line-b" />
-              <span className="desk-block" />
-              <span className="plant-stem" />
-              <span className="plant-leaf leaf-a" />
-              <span className="plant-leaf leaf-b" />
-              <span className="spark spark-a">✦</span>
-              <span className="spark spark-b">✧</span>
-            </div>
-            <p className="feature-kicker">GAME CLIENT / C++ / WRITING</p>
-            <h2>学习、构建，<br />也认真记录。</h2>
-            <p>把走过的路整理成可以回看、复述，也能继续生长的个人档案。</p>
-          </article>
-          <aside className="margin-note">
-            <span aria-hidden="true">♡</span>
-            <strong>今日状态</strong>
-            <p>在学习现代 C++，也在搭建自己的游戏客户端知识树。</p>
-          </aside>
-          <div className="round-sticker" aria-hidden="true">HELLO<br />WORLD</div>
-          <div className="tape tape-bottom" aria-hidden="true" />
-        </div>
+        <div className="hero-scroll" aria-hidden="true"><span /> SCROLL TO EXPLORE</div>
       </section>
 
       <section className="channels" id="channels" aria-labelledby="channels-title">
@@ -86,15 +65,11 @@ export default function Home() {
       <section className="about" id="about" aria-labelledby="about-title">
         <div className="about-portrait" aria-hidden="true">
           <div className="portrait-halo" />
-          <div className="portrait-face">
-            <span className="hair hair-left" />
-            <span className="hair hair-right" />
-            <span className="eye eye-left" />
-            <span className="eye eye-right" />
-            <span className="smile" />
-          </div>
-          <span className="portrait-flower flower-one">✿</span>
-          <span className="portrait-flower flower-two">✦</span>
+          <div className="portrait-orbit portrait-orbit-one" />
+          <div className="portrait-orbit portrait-orbit-two" />
+          <div className="portrait-monogram">LC</div>
+          <span className="portrait-point point-one" />
+          <span className="portrait-point point-two" />
           <span className="portrait-label">LEMONLC</span>
         </div>
         <div className="about-copy">

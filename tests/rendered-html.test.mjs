@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const routes = [
-  { path: "/", title: "欢迎来到我的长期连载", marker: "个人主页" },
+  { path: "/", title: "在技术与想象之间持续探索", marker: "个人主页" },
   { path: "/career", title: "求职手记", marker: "把每一次准备" },
   { path: "/learning", title: "学习笔记", marker: "游戏客户端 C++ 成长路线" },
   { path: "/projects", title: "项目复盘", marker: "比结果更重要的" },

@@ -9,10 +9,10 @@ export default function SiteHeader({ active }: SiteHeaderProps) {
   return (
     <header className="site-header">
       <Link className="brand" href="/" aria-label="LemonLC 个人主页">
-        <span className="brand-seal" aria-hidden="true">L</span>
+        <span className="brand-seal" aria-hidden="true">LC</span>
         <span>
-          <strong>LemonLC&apos;Blog</strong>
-          <small>PERSONAL ARCHIVE · SINCE 2026</small>
+          <strong>LEMONLC</strong>
+          <small>PERSONAL ARCHIVE</small>
         </span>
       </Link>
 
@@ -30,7 +30,7 @@ export default function SiteHeader({ active }: SiteHeaderProps) {
       </nav>
 
       <Link className="header-cta" href="/learning">
-        开始学习 <span aria-hidden="true">↗</span>
+        EXPLORE <span aria-hidden="true">↗</span>
       </Link>
     </header>
   );
