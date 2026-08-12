@@ -1,25 +1,24 @@
 import assert from "node:assert/strict";
-import { access, readFile, readdir } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
-const templateRoot = new URL("../", import.meta.url);
-const previewRoot = new URL("../app/_sites-preview/", import.meta.url);
+const routes = [
+  { path: "/", title: "欢迎来到我的长期连载", marker: "个人主页" },
+  { path: "/career", title: "求职手记", marker: "把每一次准备" },
+  { path: "/learning", title: "学习笔记", marker: "游戏客户端 C++ 成长路线" },
+  { path: "/projects", title: "项目复盘", marker: "比结果更重要的" },
+  { path: "/novels", title: "小说连载", marker: "在真实生活之外" },
+];
 
-async function render() {
+async function render(pathname) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${pathname}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
+    new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
     {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
+      ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
     },
     {
       waitUntil() {},
@@ -28,60 +27,41 @@ async function render() {
   );
 }
 
-test("server-renders the starter loading skeleton", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+for (const route of routes) {
+  test(`renders ${route.path} as an independent page`, async () => {
+    const response = await render(route.path);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
+    const html = await response.text();
+    assert.ok(html.includes(route.title));
+    assert.ok(html.includes(route.marker));
+    assert.match(html, /href="\/career"/);
+    assert.match(html, /href="\/learning"/);
+    assert.match(html, /href="\/projects"/);
+    assert.match(html, /href="\/novels"/);
+  });
+}
+
+test("keeps the homepage focused on the personal profile", async () => {
+  const response = await render("/");
   const html = await response.text();
-  assert.match(html, developmentPreviewMeta);
-  assert.match(html, /<title>Your site is taking shape<\/title>/i);
-  assert.match(html, /Codex is working/);
-  assert.match(html, /Your site is taking shape/);
-  assert.match(html, /Codex is building the first version/);
-  assert.match(html, /react-loading-skeleton/);
-  assert.match(html, /role="status"/);
+
+  assert.match(html, /你好，我是 LemonLC/);
+  assert.match(html, /关于我/);
+  assert.match(html, /四类记录现在拥有各自的页面/);
+  assert.doesNotMatch(html, /role="tablist"/);
 });
 
-test("keeps the loading skeleton scoped and disposable", async () => {
-  const [preview, css, page, layout, packageJson, files] = await Promise.all([
-    readFile(new URL("SkeletonPreview.tsx", previewRoot), "utf8"),
-    readFile(new URL("preview.css", previewRoot), "utf8"),
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../package.json", import.meta.url), "utf8"),
-    readdir(previewRoot),
+test("keeps route data and navigation in one shared source", async () => {
+  const [content, header] = await Promise.all([
+    readFile(new URL("../app/content.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8"),
   ]);
 
-  assert.deepEqual(files.sort(), ["SkeletonPreview.tsx", "preview.css"]);
-  assert.match(preview, /from "react-loading-skeleton"/);
-  assert.match(preview, /baseColor="#eceae7"/);
-  assert.match(preview, /highlightColor="#f9f8f6"/);
-  assert.match(preview, /duration=\{2\.8\}/);
-  assert.match(preview, /sites-skeleton-search-placeholder/);
-  assert.match(packageJson, /"react-loading-skeleton": "3\.5\.0"/);
-
-  const shellIndex = preview.indexOf('className="sites-skeleton-shell"');
-  const statusIndex = preview.indexOf('className="sites-skeleton-status"');
-  assert.ok(shellIndex >= 0 && statusIndex > shellIndex);
-  assert.match(css, /position:\s*fixed/);
-  assert.match(css, /inset:\s*0/);
-  assert.match(css, /opacity:\s*0\.52/);
-  assert.match(css, /prefers-reduced-motion:\s*reduce/);
-  assert.doesNotMatch(css, /#020617|canvas|pets|progress/i);
-  assert.doesNotMatch(
-    preview,
-    /loading-spinner|status-mark|status-progress|canvas|cookie|random/i,
-  );
-
-  assert.match(page, /export const metadata:\s*Metadata/);
-  assert.match(page, /"codex-preview": "development"/);
-  assert.match(page, /<SkeletonPreview \/>/);
-  assert.match(layout, /title:\s*"Starter Project"/);
-  assert.doesNotMatch(layout, /codex-preview|_sites-preview|themeColor|\bViewport\b/);
-  assert.doesNotMatch(css, /(^|\s)(html|body)\s*\{/m);
-
-  await assert.rejects(
-    access(new URL("public/_sites-preview", templateRoot)),
-  );
+  for (const route of routes.slice(1)) {
+    assert.match(content, new RegExp(`href: "${route.path}"`));
+  }
+  assert.match(header, /channels\.map/);
+  assert.match(header, /aria-current/);
 });

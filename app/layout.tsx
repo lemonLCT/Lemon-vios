@@ -7,7 +7,10 @@ const description = "LemonLC 的个人博客，记录游戏客户端开发、C++
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title,
+  title: {
+    default: title,
+    template: "%s｜LemonLC'Blog",
+  },
   description,
   authors: [{ name: "LemonLC" }],
   openGraph: {

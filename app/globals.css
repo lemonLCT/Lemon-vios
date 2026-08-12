@@ -54,10 +54,11 @@ button { color: inherit; }
 }
 .brand strong { display: block; font: 700 20px/1.1 Georgia, "Times New Roman", serif; letter-spacing: .01em; }
 .brand small { display: block; margin-top: 5px; color: var(--muted); font: 600 9px/1.1 Consolas, monospace; letter-spacing: .14em; }
-.site-header nav { display: flex; align-items: center; gap: 32px; font-size: 13px; }
+.site-header nav { display: flex; align-items: center; gap: 24px; font-size: 13px; }
 .site-header nav a { position: relative; padding: 8px 2px; }
 .site-header nav a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 2px; height: 1px; background: var(--wine); transition: right .2s ease; }
-.site-header nav a:hover::after, .site-header nav a:focus-visible::after { right: 0; }
+.site-header nav a:hover::after, .site-header nav a:focus-visible::after, .site-header nav a[aria-current="page"]::after { right: 0; }
+.site-header nav a[aria-current="page"] { color: var(--wine); font-weight: 700; }
 .header-cta, .primary-action {
   display: inline-flex; align-items: center; justify-content: center; gap: 22px; background: var(--wine); color: var(--paper);
   min-height: 44px; padding: 0 19px; border-radius: 2px; font-size: 13px; box-shadow: 4px 4px 0 var(--pink);
@@ -120,7 +121,7 @@ button { color: inherit; }
 .petal-one { left: 49%; top: 90px; }
 .petal-two { right: 3%; bottom: 110px; transform: rotate(-15deg) scale(.7); }
 
-.channels, .cpp-roadmap, .latest, .about, .newsletter { max-width: 1320px; margin: 0 auto; }
+.channels, .cpp-roadmap, .latest, .about, .newsletter, .channel-switcher { max-width: 1320px; margin: 0 auto; }
 .channels { padding: 88px 55px 100px; border-top: 1px solid var(--line); }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 38px; }
 .section-heading .eyebrow { margin-bottom: 8px; }
@@ -136,6 +137,36 @@ button { color: inherit; }
 .channel-card strong { color: var(--wine); font: 600 22px/1.2 Georgia, "Songti SC", serif; }
 .channel-card small { margin-top: 8px; color: var(--muted); font-size: 11px; }
 .channel-arrow { position: absolute; right: 26px; bottom: 29px; color: var(--wine); }
+
+.channel-hero {
+  max-width: 1320px; min-height: 430px; margin: 0 auto; padding: 88px 55px;
+  display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 80px; align-items: center;
+  position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+}
+.channel-hero::after {
+  content: ""; position: absolute; width: 330px; height: 330px; right: 6%; top: -190px;
+  border: 1px solid rgba(103,40,58,.12); border-radius: 50%;
+  box-shadow: 0 0 0 42px rgba(233,155,173,.06), 0 0 0 84px rgba(233,155,173,.035);
+}
+.channel-hero > div, .channel-hero > aside { position: relative; z-index: 1; }
+.channel-hero h1 {
+  max-width: 850px; margin: 0; color: var(--wine);
+  font: 500 clamp(42px,5vw,70px)/1.18 Georgia, "Noto Serif CJK SC", "Songti SC", serif;
+  letter-spacing: -.045em;
+}
+.channel-hero > div > p:last-child { max-width: 720px; margin: 28px 0 0; color: var(--muted); font-size: 14px; line-height: 2; }
+.channel-hero > aside {
+  min-height: 220px; padding: 28px; display: flex; flex-direction: column; justify-content: flex-end;
+  background: var(--paper); border: 1px solid var(--line); box-shadow: 9px 10px 0 var(--pink-pale), var(--shadow);
+  transform: rotate(2deg);
+}
+.channel-hero > aside > span { position: absolute; right: 24px; top: 20px; color: var(--rose); font: 400 46px/1 Georgia, serif; }
+.channel-hero > aside strong { color: var(--wine); font: 500 56px/1 Georgia, serif; }
+.channel-hero > aside small { margin-top: 11px; color: var(--muted); font-size: 10px; letter-spacing: .08em; }
+.channel-hero-career { background: linear-gradient(120deg, rgba(251,230,232,.7), transparent 58%); }
+.channel-hero-learning { background: linear-gradient(120deg, rgba(247,237,203,.55), transparent 58%); }
+.channel-hero-projects { background: linear-gradient(120deg, rgba(169,184,157,.23), transparent 58%); }
+.channel-hero-novels { background: linear-gradient(120deg, rgba(103,40,58,.08), transparent 58%); }
 
 .cpp-roadmap {
   padding: 84px 55px 72px; color: white; position: relative; overflow: hidden;
@@ -191,6 +222,7 @@ button { color: inherit; }
 .search-field input { width: 100%; height: 46px; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 13px; }
 .search-field input::placeholder { color: #a58f95; }
 .filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 23px; }
+.channel-label { min-height: 34px; display: inline-flex; align-items: center; padding: 0 16px; border: 1px solid var(--line); border-radius: 99px; background: var(--paper); color: var(--wine); font-size: 11px; }
 .filter-button { min-height: 34px; padding: 0 16px; border: 1px solid var(--line); border-radius: 99px; background: var(--paper); cursor: pointer; font-size: 11px; transition: all .18s ease; }
 .filter-button:hover, .filter-button.active { color: white; border-color: var(--wine); background: var(--wine); }
 .result-count { margin-left: auto; color: var(--muted); font: 600 10px/1 Consolas, monospace; letter-spacing: .08em; }
@@ -206,6 +238,7 @@ button { color: inherit; }
 .post-content p { max-width: 720px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
 .read-button { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--wine); border-radius: 50%; background: transparent; color: var(--wine); cursor: pointer; font-size: 20px; transition: all .18s ease; }
 .post-card:hover .read-button, .read-button:hover { color: white; background: var(--wine); transform: rotate(-12deg); }
+.post-status { justify-self: end; color: var(--muted); font: 600 9px/1 Consolas, monospace; letter-spacing: .08em; white-space: nowrap; }
 .empty-state { padding: 80px 20px; text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .empty-state > span { color: var(--pink); font-size: 42px; }
 .empty-state h3 { color: var(--wine); font: 600 25px/1.3 Georgia, serif; }
@@ -244,6 +277,18 @@ button { color: inherit; }
 .newsletter p:last-child { color: rgba(255,255,255,.65); font-size: 12px; }
 .newsletter > a { position: relative; min-width: 190px; display: flex; justify-content: space-between; padding: 14px 4px; border-bottom: 1px solid rgba(255,255,255,.55); font-size: 12px; }
 
+.channel-switcher {
+  margin-bottom: 40px; padding: 58px 55px; display: grid; grid-template-columns: .7fr 1.3fr; gap: 60px;
+  background: var(--pink-pale); border: 1px solid var(--line);
+}
+.channel-switcher h2 { margin: 0; color: var(--wine); font: 500 34px/1.25 Georgia, "Songti SC", serif; }
+.channel-switcher > div:last-child { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
+.channel-switcher a { min-height: 72px; display: flex; align-items: center; gap: 16px; padding: 0 14px; border-bottom: 1px solid var(--line); color: var(--wine); font-size: 13px; }
+.channel-switcher a:nth-child(odd) { border-right: 1px solid var(--line); }
+.channel-switcher a span { color: var(--rose); font: 700 9px/1 Consolas, monospace; }
+.channel-switcher a:hover, .channel-switcher a[aria-current="page"] { background: var(--paper); }
+.channel-switcher a[aria-current="page"] { font-weight: 700; }
+
 footer { max-width: 1320px; margin: 0 auto; min-height: 130px; padding: 35px 55px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 30px; color: var(--muted); font-size: 10px; }
 footer p:nth-child(2) { text-align: center; } footer p:last-child { text-align: right; }
 .footer-brand { color: var(--wine); font: 700 18px/1 Georgia, serif; }
@@ -260,7 +305,8 @@ footer p:nth-child(2) { text-align: center; } footer p:last-child { text-align: 
 @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(122,165,109,0); } }
 
 @media (max-width: 1040px) {
-  .site-header nav { display: none; }
+  .site-header { flex-wrap: wrap; }
+  .site-header nav { order: 3; width: 100%; justify-content: center; gap: 28px; padding-top: 9px; border-top: 1px solid var(--line); }
   .hero { grid-template-columns: 1fr; padding-top: 65px; }
   .hero-copy { max-width: 760px; }
   .hero-collage { width: min(100%, 620px); margin: 0 auto; }
@@ -271,6 +317,8 @@ footer p:nth-child(2) { text-align: center; } footer p:last-child { text-align: 
   .cpp-stage-tabs { grid-template-columns: repeat(3, 1fr); }
   .cpp-stage-tab:nth-child(3n) { border-right: 0; }
   .cpp-stage-tab:nth-child(-n+3) { border-bottom: 1px solid rgba(255,255,255,.16); }
+  .channel-hero { grid-template-columns: minmax(0, 1fr) 190px; gap: 45px; }
+  .channel-switcher { grid-template-columns: 1fr; gap: 30px; }
   .about { grid-template-columns: .7fr 1.3fr; }
   .about blockquote { grid-column: 1 / -1; text-align: center; border-left: 0; border-top: 1px solid rgba(103,40,58,.16); padding: 28px 0 0; }
 }
@@ -278,7 +326,10 @@ footer p:nth-child(2) { text-align: center; } footer p:last-child { text-align: 
 @media (max-width: 700px) {
   .site-header { padding: 12px 20px; min-height: 72px; }
   .brand { min-width: 0; }
-  .brand small, .header-cta { display: none; }
+  .brand small { display: none; }
+  .header-cta { display: none; }
+  .site-header nav { justify-content: flex-start; gap: 24px; overflow-x: auto; padding-bottom: 4px; white-space: nowrap; scrollbar-width: none; }
+  .site-header nav::-webkit-scrollbar { display: none; }
   .hero { padding: 55px 22px 72px; gap: 45px; min-height: auto; }
   .hero h1 { font-size: clamp(43px, 13vw, 61px); }
   .hero-intro { font-size: 13px; line-height: 1.9; }
@@ -319,6 +370,13 @@ footer p:nth-child(2) { text-align: center; } footer p:last-child { text-align: 
   .post-index i { margin: 0; width: 45px; }
   .post-meta { gap: 9px; flex-wrap: wrap; }
   .post-content p { font-size: 11px; }
+  .post-status { grid-column: 2; align-self: center; }
+  .channel-hero { min-height: 0; grid-template-columns: 1fr; gap: 38px; padding: 62px 22px 70px; }
+  .channel-hero h1 { font-size: clamp(38px,11vw,52px); }
+  .channel-hero > aside { width: min(100%, 270px); min-height: 170px; }
+  .channel-switcher { margin: 0 12px 20px; padding: 44px 24px; }
+  .channel-switcher > div:last-child { grid-template-columns: 1fr; }
+  .channel-switcher a:nth-child(odd) { border-right: 0; }
   .about { margin: 0 12px 78px; padding: 58px 25px; grid-template-columns: 1fr; gap: 38px; }
   .about-copy { text-align: center; }
   .status-strip { justify-content: center; }
