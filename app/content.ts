@@ -1,5 +1,7 @@
 export type ChannelKey = "career" | "learning" | "projects";
 
+export const authorName = "佐比麦";
+
 export type Channel = {
   key: ChannelKey;
   href: `/${ChannelKey}`;
@@ -36,6 +38,18 @@ export type CppStage = {
   title: string;
   note: string;
   topics: CppTopic[];
+};
+
+export type FeaturedProject = {
+  name: string;
+  title: string;
+  summary: string;
+  description: string;
+  videoFile: string;
+  posterFile: string;
+  duration: string;
+  resolution: string;
+  facts: Array<{ label: string; value: string }>;
 };
 
 export const channels: Channel[] = [
@@ -110,6 +124,23 @@ export const posts: Post[] = [
     number: "EP. 018",
   },
 ];
+
+export const featuredProject: FeaturedProject = {
+  name: "GoGoGhost",
+  title: "第三人称动作生存游戏 Demo",
+  summary: "面向游戏客户端岗位整理的第三人称动作生存 Demo，集中展示当前可玩的战斗流程、武器与成长反馈，以及 HUD 和菜单交互效果。",
+  description: "这是我持续开发与打磨的 Unity 个人项目。它承载了角色战斗、敌人波次、武器系统、能力成长、界面框架与存档流程等游戏客户端实践，也用于展示我把功能串成完整体验的能力。",
+  videoFile: "gogoghost-demo.mp4",
+  posterFile: "gogoghost-poster.jpg",
+  duration: "02:35",
+  resolution: "720P WEB",
+  facts: [
+    { label: "ROLE", value: "独立开发" },
+    { label: "ENGINE", value: "Unity" },
+    { label: "LANGUAGE", value: "C#" },
+    { label: "FOCUS", value: "游戏客户端" },
+  ],
+};
 
 export const cppStages: CppStage[] = [
   {

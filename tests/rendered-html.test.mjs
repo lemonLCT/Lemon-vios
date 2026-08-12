@@ -35,6 +35,7 @@ for (const route of routes) {
     const html = await response.text();
     assert.ok(html.includes(route.title));
     assert.ok(html.includes(route.marker));
+    assert.match(html, /佐比麦/);
     assert.match(html, /href="\/career"/);
     assert.match(html, /href="\/learning"/);
     assert.match(html, /href="\/projects"/);
@@ -61,9 +62,15 @@ test("keeps the homepage focused on the personal profile", async () => {
   const response = await render("/");
   const html = await response.text();
 
-  assert.match(html, /你好，我是 LemonLC/);
-  assert.match(html, /关于我/);
+  assert.match(html, /你好，我是(?:<!-- -->)?佐比麦/);
+  assert.match(html, /alt="佐比麦的头像"/);
   assert.match(html, /三类内容拥有各自的页面/);
+  assert.match(html, /前端面试地图：从基础到现场/);
+  assert.match(html, /游戏客户端 C\+\+：从对象生命周期到工程设计/);
+  assert.match(html, /GoGoGhost/);
+  assert.match(html, /href="\/career"/);
+  assert.match(html, /href="\/learning#cpp-roadmap"/);
+  assert.match(html, /href="\/projects"/);
   assert.doesNotMatch(html, /role="tablist"/);
 });
 
@@ -78,4 +85,6 @@ test("keeps route data and navigation in one shared source", async () => {
   }
   assert.match(header, /channels\.map/);
   assert.match(header, /aria-current/);
+  assert.match(content, /export const authorName = "佐比麦"/);
+  assert.match(content, /export const featuredProject/);
 });

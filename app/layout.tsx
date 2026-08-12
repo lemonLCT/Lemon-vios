@@ -1,26 +1,28 @@
 import type { Metadata } from "next";
+import { authorName } from "./content";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lemonLCT.github.io/Lemon-vios";
-const title = "LemonLC'Blog｜把成长写成一场长期连载";
-const description = "LemonLC 的个人主页，记录游戏客户端开发、C++ 学习、求职准备与个人项目。";
+const siteName = `${authorName}的个人博客`;
+const title = `${siteName}｜把成长写成一场长期连载`;
+const description = `${authorName}的个人主页，记录游戏客户端开发、C++ 学习、求职准备与个人项目。`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: title,
-    template: "%s｜LemonLC'Blog",
+    template: `%s｜${siteName}`,
   },
   description,
-  authors: [{ name: "LemonLC" }],
+  authors: [{ name: authorName }],
   openGraph: {
     type: "website",
     locale: "zh_CN",
     url: siteUrl,
-    siteName: "LemonLC'Blog",
+    siteName,
     title,
     description,
-    images: [{ url: `${siteUrl}/og.png`, width: 1536, height: 1024, alt: "LemonLC'Blog 淡蓝科技风格预览" }],
+    images: [{ url: `${siteUrl}/og.png`, width: 1536, height: 1024, alt: `${siteName}淡蓝科技风格预览` }],
   },
   twitter: {
     card: "summary_large_image",

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { channels, cppStages, posts, type ChannelKey } from "../content";
+import { channels, cppStages, featuredProject, posts, type ChannelKey } from "../content";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 
@@ -11,26 +11,23 @@ type ChannelPageProps = {
 };
 
 function GoGoGhostProject() {
-  const videoPath = "../media/gogoghost-demo.mp4";
-  const posterPath = "../media/gogoghost-poster.jpg";
+  const videoPath = `../media/${featuredProject.videoFile}`;
+  const posterPath = `../media/${featuredProject.posterFile}`;
 
   return (
     <section className="project-showcase channel-content" id="channel-content" aria-labelledby="project-title">
       <div className="project-showcase-heading">
         <div>
           <p className="eyebrow">FEATURED DEMO / UNITY</p>
-          <h2 id="project-title">GoGoGhost</h2>
+          <h2 id="project-title">{featuredProject.name}</h2>
         </div>
-        <p>
-          面向游戏客户端岗位整理的第三人称动作生存 Demo，视频集中展示当前可玩的战斗流程、
-          武器与成长反馈，以及 HUD 和菜单交互效果。
-        </p>
+        <p>{featuredProject.summary}</p>
       </div>
 
       <div className="project-video-shell">
         <div className="project-video-topline">
           <span>GAMEPLAY SHOWCASE</span>
-          <span>02:35 / 720P WEB</span>
+          <span>{featuredProject.duration} / {featuredProject.resolution}</span>
         </div>
         <video
           className="project-video"
@@ -48,20 +45,16 @@ function GoGoGhostProject() {
       <div className="project-details">
         <div className="project-summary">
           <span className="project-index">PROJECT / 01</span>
-          <h3>第三人称动作生存游戏 Demo</h3>
-          <p>
-            这是我持续开发与打磨的 Unity 个人项目。它承载了角色战斗、敌人波次、武器系统、
-            能力成长、界面框架与存档流程等游戏客户端实践，也用于展示我把功能串成完整体验的能力。
-          </p>
+          <h3>{featuredProject.title}</h3>
+          <p>{featuredProject.description}</p>
           <a className="project-video-link" href={videoPath} target="_blank" rel="noreferrer">
             单独打开演示视频 <span aria-hidden="true">↗</span>
           </a>
         </div>
         <dl className="project-facts">
-          <div><dt>ROLE</dt><dd>独立开发</dd></div>
-          <div><dt>ENGINE</dt><dd>Unity</dd></div>
-          <div><dt>LANGUAGE</dt><dd>C#</dd></div>
-          <div><dt>FOCUS</dt><dd>游戏客户端</dd></div>
+          {featuredProject.facts.map((fact) => (
+            <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>
+          ))}
         </dl>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { channels, type ChannelKey } from "../content";
+import { authorName, channels, type ChannelKey } from "../content";
 
 type SiteHeaderProps = {
   active: "home" | ChannelKey;
@@ -8,10 +8,10 @@ type SiteHeaderProps = {
 export default function SiteHeader({ active }: SiteHeaderProps) {
   return (
     <header className="site-header">
-      <Link className="brand" href="/" aria-label="LemonLC 个人主页">
-        <span className="brand-seal" aria-hidden="true">LC</span>
+      <Link className="brand" href="/" aria-label={`${authorName}个人主页`}>
+        <span className="brand-seal" aria-hidden="true">佐</span>
         <span>
-          <strong>LEMONLC</strong>
+          <strong>{authorName}</strong>
           <small>PERSONAL ARCHIVE</small>
         </span>
       </Link>
