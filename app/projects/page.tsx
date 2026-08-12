@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import ChannelPage from "../components/ChannelPage";
 
 export const metadata: Metadata = {
-  title: "项目复盘",
-  description: "LemonLC 的项目复盘，记录项目背景、技术取舍、问题根因与改进经验。",
+  title: "个人项目",
+  description: "LemonLC 的个人项目与游戏客户端 Demo，展示 GoGoGhost 的实际运行效果与开发能力。",
 };
 
 export default function ProjectsPage() {

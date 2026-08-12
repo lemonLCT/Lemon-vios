@@ -6,8 +6,7 @@ const routes = [
   { path: "/", title: "在技术与想象之间持续探索", marker: "个人主页" },
   { path: "/career", title: "求职手记", marker: "把每一次准备" },
   { path: "/learning", title: "学习笔记", marker: "游戏客户端 C++ 成长路线" },
-  { path: "/projects", title: "项目复盘", marker: "比结果更重要的" },
-  { path: "/novels", title: "小说连载", marker: "在真实生活之外" },
+  { path: "/projects", title: "个人项目", marker: "GoGoGhost" },
 ];
 
 async function render(pathname) {
@@ -39,9 +38,24 @@ for (const route of routes) {
     assert.match(html, /href="\/career"/);
     assert.match(html, /href="\/learning"/);
     assert.match(html, /href="\/projects"/);
-    assert.match(html, /href="\/novels"/);
+    assert.doesNotMatch(html, /href="\/novels"/);
+    assert.doesNotMatch(html, /项目复盘|小说连载/);
   });
 }
+
+test("removes the novels module", async () => {
+  const response = await render("/novels");
+  assert.equal(response.status, 404);
+});
+
+test("embeds the GoGoGhost demo on the personal projects page", async () => {
+  const response = await render("/projects");
+  const html = await response.text();
+
+  assert.match(html, /<video/);
+  assert.match(html, /gogoghost-demo\.mp4/);
+  assert.match(html, /第三人称动作生存游戏 Demo/);
+});
 
 test("keeps the homepage focused on the personal profile", async () => {
   const response = await render("/");
@@ -49,7 +63,7 @@ test("keeps the homepage focused on the personal profile", async () => {
 
   assert.match(html, /你好，我是 LemonLC/);
   assert.match(html, /关于我/);
-  assert.match(html, /四类记录现在拥有各自的页面/);
+  assert.match(html, /三类内容拥有各自的页面/);
   assert.doesNotMatch(html, /role="tablist"/);
 });
 

@@ -10,6 +10,64 @@ type ChannelPageProps = {
   channelKey: ChannelKey;
 };
 
+function GoGoGhostProject() {
+  const videoPath = "../media/gogoghost-demo.mp4";
+  const posterPath = "../media/gogoghost-poster.jpg";
+
+  return (
+    <section className="project-showcase channel-content" id="channel-content" aria-labelledby="project-title">
+      <div className="project-showcase-heading">
+        <div>
+          <p className="eyebrow">FEATURED DEMO / UNITY</p>
+          <h2 id="project-title">GoGoGhost</h2>
+        </div>
+        <p>
+          面向游戏客户端岗位整理的第三人称动作生存 Demo，视频集中展示当前可玩的战斗流程、
+          武器与成长反馈，以及 HUD 和菜单交互效果。
+        </p>
+      </div>
+
+      <div className="project-video-shell">
+        <div className="project-video-topline">
+          <span>GAMEPLAY SHOWCASE</span>
+          <span>02:35 / 720P WEB</span>
+        </div>
+        <video
+          className="project-video"
+          controls
+          playsInline
+          preload="metadata"
+          poster={posterPath}
+          aria-label="GoGoGhost 游戏 Demo 演示视频"
+        >
+          <source src={videoPath} type="video/mp4" />
+          你的浏览器暂不支持直接播放视频，可以使用下方链接单独打开。
+        </video>
+      </div>
+
+      <div className="project-details">
+        <div className="project-summary">
+          <span className="project-index">PROJECT / 01</span>
+          <h3>第三人称动作生存游戏 Demo</h3>
+          <p>
+            这是我持续开发与打磨的 Unity 个人项目。它承载了角色战斗、敌人波次、武器系统、
+            能力成长、界面框架与存档流程等游戏客户端实践，也用于展示我把功能串成完整体验的能力。
+          </p>
+          <a className="project-video-link" href={videoPath} target="_blank" rel="noreferrer">
+            单独打开演示视频 <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <dl className="project-facts">
+          <div><dt>ROLE</dt><dd>独立开发</dd></div>
+          <div><dt>ENGINE</dt><dd>Unity</dd></div>
+          <div><dt>LANGUAGE</dt><dd>C#</dd></div>
+          <div><dt>FOCUS</dt><dd>游戏客户端</dd></div>
+        </dl>
+      </div>
+    </section>
+  );
+}
+
 export default function ChannelPage({ channelKey }: ChannelPageProps) {
   const channel = channels.find((item) => item.key === channelKey)!;
   const [query, setQuery] = useState("");
@@ -23,6 +81,7 @@ export default function ChannelPage({ channelKey }: ChannelPageProps) {
       return !normalized || `${post.title} ${post.excerpt}`.toLowerCase().includes(normalized);
     });
   }, [channel.name, query]);
+  const itemCount = channel.key === "projects" ? 1 : filteredPosts.length;
 
   return (
     <main>
@@ -31,14 +90,14 @@ export default function ChannelPage({ channelKey }: ChannelPageProps) {
 
       <section className={`channel-hero channel-hero-${channel.key}`} aria-labelledby="channel-title">
         <div>
-          <p className="eyebrow"><span>{channel.eyebrow}</span> {channel.mark} / 04</p>
+          <p className="eyebrow"><span>{channel.eyebrow}</span> {channel.mark} / 03</p>
           <h1 id="channel-title">{channel.title}</h1>
           <p>{channel.intro}</p>
         </div>
         <aside aria-label={`${channel.name}概览`}>
           <span aria-hidden="true">{channel.symbol}</span>
-          <strong>{String(filteredPosts.length).padStart(2, "0")}</strong>
-          <small>篇已整理内容</small>
+          <strong>{String(itemCount).padStart(2, "0")}</strong>
+          <small>{channel.key === "projects" ? "个可演示项目" : "篇已整理内容"}</small>
         </aside>
       </section>
 
@@ -119,65 +178,69 @@ export default function ChannelPage({ channelKey }: ChannelPageProps) {
         </section>
       )}
 
-      <section className="latest channel-content" id="channel-content" aria-labelledby="latest-title">
-        <div className="section-heading latest-heading">
-          <div>
-            <p className="eyebrow">{channel.eyebrow}</p>
-            <h2 id="latest-title">{channel.name}</h2>
+      {channel.key === "projects" ? (
+        <GoGoGhostProject />
+      ) : (
+        <section className="latest channel-content" id="channel-content" aria-labelledby="latest-title">
+          <div className="section-heading latest-heading">
+            <div>
+              <p className="eyebrow">{channel.eyebrow}</p>
+              <h2 id="latest-title">{channel.name}</h2>
+            </div>
+            <label className="search-field">
+              <span className="search-icon" aria-hidden="true">⌕</span>
+              <span className="sr-only">搜索{channel.name}</span>
+              <input
+                type="search"
+                placeholder={`搜索${channel.name}…`}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </label>
           </div>
-          <label className="search-field">
-            <span className="search-icon" aria-hidden="true">⌕</span>
-            <span className="sr-only">搜索{channel.name}</span>
-            <input
-              type="search"
-              placeholder={`搜索${channel.name}…`}
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </label>
-        </div>
 
-        <div className="filter-row">
-          <span className="channel-label">{channel.note}</span>
-          <span className="result-count" aria-live="polite">{filteredPosts.length} 篇</span>
-        </div>
+          <div className="filter-row">
+            <span className="channel-label">{channel.note}</span>
+            <span className="result-count" aria-live="polite">{filteredPosts.length} 篇</span>
+          </div>
 
-        {filteredPosts.length > 0 ? (
-          <div className="post-list">
-            {filteredPosts.map((post) => (
-              <article className={post.featured ? "post-card featured" : "post-card"} key={post.title}>
-                <div className="post-index">
-                  <span>{post.number}</span>
-                  <i aria-hidden="true" />
-                </div>
-                <div className="post-content">
-                  <div className="post-meta">
-                    <span>{post.category}</span>
-                    <time>{post.date}</time>
-                    <span>{post.readTime}</span>
+          {filteredPosts.length > 0 ? (
+            <div className="post-list">
+              {filteredPosts.map((post) => (
+                <article className={post.featured ? "post-card featured" : "post-card"} key={post.title}>
+                  <div className="post-index">
+                    <span>{post.number}</span>
+                    <i aria-hidden="true" />
                   </div>
-                  <h3>{post.title}</h3>
-                  <p>{post.excerpt}</p>
-                </div>
-                {post.href ? (
-                  <a className="read-button" href={post.href} aria-label={`阅读《${post.title}》`}>
-                    <span aria-hidden="true">→</span>
-                  </a>
-                ) : (
-                  <span className="post-status">整理中</span>
-                )}
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            <span aria-hidden="true">☁</span>
-            <h3>这一页还是空白</h3>
-            <p>换个关键词再试试吧。</p>
-            <button type="button" onClick={() => setQuery("")}>清除搜索</button>
-          </div>
-        )}
-      </section>
+                  <div className="post-content">
+                    <div className="post-meta">
+                      <span>{post.category}</span>
+                      <time>{post.date}</time>
+                      <span>{post.readTime}</span>
+                    </div>
+                    <h3>{post.title}</h3>
+                    <p>{post.excerpt}</p>
+                  </div>
+                  {post.href ? (
+                    <a className="read-button" href={post.href} aria-label={`阅读《${post.title}》`}>
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  ) : (
+                    <span className="post-status">整理中</span>
+                  )}
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <span aria-hidden="true">☁</span>
+              <h3>这一页还是空白</h3>
+              <p>换个关键词再试试吧。</p>
+              <button type="button" onClick={() => setQuery("")}>清除搜索</button>
+            </div>
+          )}
+        </section>
+      )}
 
       <section className="channel-switcher" aria-labelledby="channel-switcher-title">
         <div>

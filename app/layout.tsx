@@ -3,7 +3,7 @@ import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lemonLCT.github.io/Lemon-vios";
 const title = "LemonLC'Blog｜把成长写成一场长期连载";
-const description = "LemonLC 的个人博客，记录游戏客户端开发、C++ 学习、求职、项目复盘与小说创作。";
+const description = "LemonLC 的个人主页，记录游戏客户端开发、C++ 学习、求职准备与个人项目。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -1,9 +1,9 @@
-export type ChannelKey = "career" | "learning" | "projects" | "novels";
+export type ChannelKey = "career" | "learning" | "projects";
 
 export type Channel = {
   key: ChannelKey;
   href: `/${ChannelKey}`;
-  name: "求职手记" | "学习笔记" | "项目复盘" | "小说连载";
+  name: "求职手记" | "学习笔记" | "个人项目";
   mark: string;
   symbol: string;
   eyebrow: string;
@@ -64,24 +64,13 @@ export const channels: Channel[] = [
   {
     key: "projects",
     href: "/projects",
-    name: "项目复盘",
+    name: "个人项目",
     mark: "03",
-    symbol: "↺",
-    eyebrow: "PROJECT REVIEWS",
-    title: "比结果更重要的，是看清选择如何发生。",
-    note: "经验与教训",
-    intro: "从项目背景、技术取舍到问题根因，记录成功经验，也记录那些值得重新来过的决定。",
-  },
-  {
-    key: "novels",
-    href: "/novels",
-    name: "小说连载",
-    mark: "04",
-    symbol: "☾",
-    eyebrow: "FICTION SERIAL",
-    title: "在真实生活之外，收藏另一个缓慢生长的世界。",
-    note: "幻想故事",
-    intro: "这里保存《雾港来信》的章节和创作片段，让那些在深夜出现的人与城市拥有可以抵达的地方。",
+    symbol: "▶",
+    eyebrow: "PERSONAL PROJECTS",
+    title: "把想法做成可以运行、可以体验的作品。",
+    note: "可玩 Demo 与工程实践",
+    intro: "这里展示我的游戏客户端项目、可玩 Demo 与实际开发成果，重点呈现我解决问题和完成交付的能力。",
   },
 ];
 
@@ -105,22 +94,6 @@ export const posts: Post[] = [
     number: "EP. 021",
   },
   {
-    category: "项目复盘",
-    title: "把一个失败项目拆开重做",
-    excerpt: "不回避失误：从需求漂移、技术债到交付节奏，记录一次真正有用的失败复盘。",
-    date: "2026.07.08",
-    readTime: "11 分钟",
-    number: "EP. 020",
-  },
-  {
-    category: "小说连载",
-    title: "雾港来信・第一章",
-    excerpt: "潮声漫过没有名字的站台，而那封迟到了七年的信，终于抵达雾港。",
-    date: "2026.07.03",
-    readTime: "14 分钟",
-    number: "VOL. 01",
-  },
-  {
     category: "学习笔记",
     title: "把复杂知识学薄：我的三层笔记法",
     excerpt: "从原始材料到自己的解释，再到可以复用的清单，让每一轮学习都留下可检索的成果。",
@@ -135,14 +108,6 @@ export const posts: Post[] = [
     date: "2026.06.20",
     readTime: "7 分钟",
     number: "EP. 018",
-  },
-  {
-    category: "小说连载",
-    title: "雾港来信・序章",
-    excerpt: "入夜之后，灯塔只为不存在的船亮起。有人说，那是雾港在等待旧日归来。",
-    date: "2026.06.14",
-    readTime: "9 分钟",
-    number: "VOL. 00",
   },
 ];
 

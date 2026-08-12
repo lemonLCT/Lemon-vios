@@ -25,8 +25,8 @@ export default function Home() {
           <p className="eyebrow"><span>LEMONLC / PERSONAL ARCHIVE</span> EST. 2026</p>
           <h1 id="hero-title">你好，我是 LemonLC。<br /><em>在技术与想象之间持续探索。</em></h1>
           <p className="hero-intro">
-            我正在走向游戏客户端开发，持续学习现代 C++，也没有放弃写故事。
-            这里是我的个人主页，也是求职、学习、项目与创作记录的入口。
+            我正在走向游戏客户端开发，持续学习现代 C++，也在把想法做成可以运行的作品。
+            这里是我的个人主页，也是求职、学习与个人项目的入口。
           </p>
           <div className="hero-actions">
             <Link className="primary-action" href="/learning">查看学习路线 <span aria-hidden="true">→</span></Link>
@@ -34,7 +34,7 @@ export default function Home() {
           </div>
           <div className="mini-stats" aria-label="博客统计">
             <span><strong>{String(posts.length).padStart(2, "0")}</strong> 篇记录</span>
-            <span><strong>04</strong> 个分区</span>
+            <span><strong>03</strong> 个分区</span>
             <span><strong>∞</strong> 持续更新</span>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default function Home() {
             <p className="eyebrow">CHAPTER INDEX</p>
             <h2 id="channels-title">从哪个分区开始？</h2>
           </div>
-          <p>四类记录现在拥有各自的页面，可以随时通过顶部导航切换。</p>
+          <p>三类内容拥有各自的页面，可以随时通过顶部导航切换。</p>
         </div>
         <div className="channel-grid">
           {channels.map((channel) => (
@@ -76,7 +76,7 @@ export default function Home() {
           <p className="eyebrow">ABOUT THE AUTHOR</p>
           <h2 id="about-title">关于我</h2>
           <p className="about-lead">
-            一个正在走向游戏客户端开发、持续学习，也没有放弃写故事的人。
+            一个正在走向游戏客户端开发、持续学习，也在认真完成个人作品的人。
           </p>
           <p>
             我相信复盘不是为了责怪过去的自己，而是为了让下一次选择更清醒；
@@ -86,7 +86,7 @@ export default function Home() {
             <span className="status-dot" aria-hidden="true" />
             <span><small>NOW</small> 求职准备中</span>
             <span><small>LEARNING</small> C++ · 游戏客户端</span>
-            <span><small>WRITING</small> 《雾港来信》</span>
+            <span><small>PROJECT</small> GoGoGhost</span>
           </div>
         </div>
         <blockquote>
@@ -100,7 +100,7 @@ export default function Home() {
           <span className="newsletter-mark" aria-hidden="true">✉</span>
           <p className="eyebrow">NEXT CHAPTER</p>
           <h2 id="newsletter-title">下一页，正在书写。</h2>
-          <p>这里会持续更新新的学习笔记、项目复盘和小说章节。</p>
+          <p>这里会持续更新求职记录、学习笔记和个人项目 Demo。</p>
         </div>
         <Link href="/learning">进入学习笔记 <span aria-hidden="true">→</span></Link>
       </section>
