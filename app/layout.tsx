@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { authorName } from "./content";
 import "./globals.css";
+import "./structure.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lemonLCT.github.io/Lemon-vios";
 const siteName = `${authorName}的个人博客`;
-const title = `${siteName}｜把成长写成一场长期连载`;
+const title = `${authorName}｜游戏客户端项目与技术文章`;
 const description = `${authorName}的个人主页，记录游戏客户端开发、C++ 学习、求职准备与个人项目。`;
 
 export const metadata: Metadata = {

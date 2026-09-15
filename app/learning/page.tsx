@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import ChannelPage from "../components/ChannelPage";
-import { authorName } from "../content";
+import PageFrame from "../components/PageFrame";
+import LegacyRedirect from "../components/LegacyRedirect";
 
-export const metadata: Metadata = {
-  title: "学习笔记",
-  description: `${authorName}的现代 C++、游戏客户端和工程实践学习笔记。`,
-};
-
+export const metadata: Metadata = { title: "学习内容已迁移", robots: { index: false } };
 export default function LearningPage() {
-  return <ChannelPage channelKey="learning" />;
+  return <PageFrame active="articles" title="学习内容已迁移" intro="C++ 学习路线已收录到文章系列。"><LegacyRedirect href="/articles/series/cpp-client#cpp-roadmap" /></PageFrame>;
 }

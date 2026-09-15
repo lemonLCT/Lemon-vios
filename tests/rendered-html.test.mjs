@@ -1,90 +1,66 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+const { default: worker } = await import("../dist/server/index.js");
+async function render(pathname) {
+  return worker.fetch(new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} });
+}
 const routes = [
-  { path: "/", title: "在技术与想象之间持续探索", marker: "个人主页" },
-  { path: "/career", title: "求职手记", marker: "把每一次准备" },
-  { path: "/learning", title: "学习笔记", marker: "游戏客户端 C++ 成长路线" },
-  { path: "/projects", title: "个人项目", marker: "GoGoGhost" },
+  ["/", "查看代表项目"], ["/projects", "个人作品"],
+  ["/projects/gogoghost", "存档与单局流程"], ["/articles", "已发布文章"],
+  ["/articles/cpp-client-overview", "客户端应用"], ["/articles/series", "学习与求职手记"],
+  ["/articles/series/cpp-client", "正文待补充"], ["/articles/series/practice-notes", "作品集不是项目仓库"],
 ];
 
-async function render(pathname) {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${pathname}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
-    {
-      ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
-}
-
-for (const route of routes) {
-  test(`renders ${route.path} as an independent page`, async () => {
-    const response = await render(route.path);
+for (const [path, marker] of routes) {
+  test(`renders ${path} with the three primary navigation entries`, async () => {
+    const response = await render(path);
     assert.equal(response.status, 200);
-    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-
     const html = await response.text();
-    assert.ok(html.includes(route.title));
-    assert.ok(html.includes(route.marker));
-    assert.match(html, /佐比麦/);
-    assert.match(html, /href="\/career"/);
-    assert.match(html, /href="\/learning"/);
-    assert.match(html, /href="\/projects"/);
-    assert.doesNotMatch(html, /href="\/novels"/);
-    assert.doesNotMatch(html, /项目复盘|小说连载/);
+    assert.ok(html.includes(marker), marker);
+    const nav = html.match(/<nav aria-label="主导航">([\s\S]*?)<\/nav>/)?.[1];
+    assert.ok(nav);
+    assert.equal([...nav.matchAll(/<a\b/g)].length, 3);
+    for (const href of ["/", "/projects", "/articles"]) assert.ok(nav.includes(`href="${href}"`));
+    assert.equal([...nav.matchAll(/aria-current="page"/g)].length, 1);
   });
 }
 
-test("removes the novels module", async () => {
-  const response = await render("/novels");
-  assert.equal(response.status, 404);
+test("keeps project video and module chapters on the detail page", async () => {
+  const list = await (await render("/projects")).text();
+  const detail = await (await render("/projects/gogoghost")).text();
+  assert.doesNotMatch(list, /<video/);
+  assert.match(list, /href="\/projects\/gogoghost"/);
+  assert.match(detail, /src="\/media\/gogoghost-demo.mp4"/);
+  for (const id of ["combat", "interface", "save", "weapons", "hud"]) assert.ok(detail.includes(`id="${id}"`));
 });
 
-test("embeds the GoGoGhost demo on the personal projects page", async () => {
-  const response = await render("/projects");
-  const html = await response.text();
-
-  assert.match(html, /<video/);
-  assert.match(html, /gogoghost-demo\.mp4/);
-  assert.match(html, /第三人称动作生存游戏 Demo/);
+test("only published prose is offered in the article list", async () => {
+  const html = await (await render("/articles")).text();
+  assert.match(html, /href="\/articles\/cpp-client-overview"/);
+  assert.doesNotMatch(html, /前端面试地图|三层笔记法|作品集不是项目仓库/);
+  const article = await (await render("/articles/cpp-client-overview")).text();
+  assert.match(article, /href="\/articles\/series\/cpp-client"/);
+  assert.match(article, /href="\/articles\?category=cpp"/);
 });
 
-test("keeps the homepage focused on the personal profile", async () => {
-  const response = await render("/");
-  const html = await response.text();
-
-  assert.match(html, /你好，我是(?:<!-- -->)?佐比麦/);
-  assert.match(html, /alt="佐比麦的头像"/);
-  assert.match(html, /三类内容拥有各自的页面/);
-  assert.match(html, /前端面试地图：从基础到现场/);
-  assert.match(html, /游戏客户端 C\+\+：从对象生命周期到工程设计/);
-  assert.match(html, /GoGoGhost/);
-  assert.match(html, /href="\/career"/);
-  assert.match(html, /href="\/learning#cpp-roadmap"/);
-  assert.match(html, /href="\/projects"/);
-  assert.doesNotMatch(html, /role="tablist"/);
-});
-
-test("keeps route data and navigation in one shared source", async () => {
-  const [content, header] = await Promise.all([
-    readFile(new URL("../app/content.ts", import.meta.url), "utf8"),
-    readFile(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8"),
-  ]);
-
-  for (const route of routes.slice(1)) {
-    assert.match(content, new RegExp(`href: "${route.path}"`));
+test("series topics have stable links without pretending to be finished articles", async () => {
+  const html = await (await render("/articles/series/cpp-client")).text();
+  for (let i = 1; i <= 20; i++) {
+    const id = `topic-${String(i).padStart(2, "0")}`;
+    assert.ok(html.includes(`id="${id}"`));
+    assert.ok(html.includes(`href="#${id}"`));
   }
-  assert.match(header, /channels\.map/);
-  assert.match(header, /aria-current/);
-  assert.match(content, /export const authorName = "佐比麦"/);
-  assert.match(content, /export const featuredProject/);
+  assert.equal([...html.matchAll(/<span class="pending-label">正文待补充<\/span>/g)].length, 20);
+});
+
+test("keeps legacy links usable and rejects missing articles", async () => {
+  const learning = await (await render("/learning")).text();
+  const career = await (await render("/career")).text();
+  assert.match(learning, /href="\/articles\/series\/cpp-client#cpp-roadmap"/);
+  assert.match(career, /href="\/articles\?category=career"/);
+  assert.equal((await render("/articles/not-a-published-article")).status, 404);
+  assert.equal((await render("/novels")).status, 404);
 });

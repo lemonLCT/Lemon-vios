@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { authorName, channels, type ChannelKey } from "../content";
+import { authorName } from "../content";
 
 type SiteHeaderProps = {
-  active: "home" | ChannelKey;
+  active: "home" | "projects" | "articles";
 };
 
 export default function SiteHeader({ active }: SiteHeaderProps) {
@@ -17,8 +17,8 @@ export default function SiteHeader({ active }: SiteHeaderProps) {
       </Link>
 
       <nav aria-label="主导航">
-        <Link href="/" aria-current={active === "home" ? "page" : undefined}>个人主页</Link>
-        {channels.map((channel) => (
+        <Link href="/" aria-current={active === "home" ? "page" : undefined}>首页</Link>
+        {([{ key: "projects", href: "/projects", name: "项目" }, { key: "articles", href: "/articles", name: "文章" }] as const).map((channel) => (
           <Link
             key={channel.key}
             href={channel.href}
@@ -29,8 +29,8 @@ export default function SiteHeader({ active }: SiteHeaderProps) {
         ))}
       </nav>
 
-      <Link className="header-cta" href="/learning">
-        EXPLORE <span aria-hidden="true">↗</span>
+      <Link className="header-cta" href="/projects/gogoghost">
+        查看代表项目 <span aria-hidden="true">↗</span>
       </Link>
     </header>
   );

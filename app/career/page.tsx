@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import ChannelPage from "../components/ChannelPage";
-import { authorName } from "../content";
+import PageFrame from "../components/PageFrame";
+import LegacyRedirect from "../components/LegacyRedirect";
 
-export const metadata: Metadata = {
-  title: "求职手记",
-  description: `${authorName}的求职手记，记录面试准备、作品集整理与成长思考。`,
-};
-
+export const metadata: Metadata = { title: "求职手记已迁移", robots: { index: false } };
 export default function CareerPage() {
-  return <ChannelPage channelKey="career" />;
+  return <PageFrame active="articles" title="求职手记已迁移" intro="求职手记现在是文章中的一个分类。"><LegacyRedirect href="/articles?category=career" /></PageFrame>;
 }

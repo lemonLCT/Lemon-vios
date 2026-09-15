@@ -1,29 +1,4 @@
-export type ChannelKey = "career" | "learning" | "projects";
-
 export const authorName = "佐比麦";
-
-export type Channel = {
-  key: ChannelKey;
-  href: `/${ChannelKey}`;
-  name: "求职手记" | "学习笔记" | "个人项目";
-  mark: string;
-  symbol: string;
-  eyebrow: string;
-  title: string;
-  note: string;
-  intro: string;
-};
-
-export type Post = {
-  category: Channel["name"];
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  number: string;
-  featured?: boolean;
-  href?: string;
-};
 
 export type CppTopic = {
   number: string;
@@ -51,79 +26,6 @@ export type FeaturedProject = {
   resolution: string;
   facts: Array<{ label: string; value: string }>;
 };
-
-export const channels: Channel[] = [
-  {
-    key: "career",
-    href: "/career",
-    name: "求职手记",
-    mark: "01",
-    symbol: "✦",
-    eyebrow: "CAREER NOTES",
-    title: "把每一次准备，写成下一次选择的底气。",
-    note: "面试与成长",
-    intro: "记录面试准备、作品集整理和求职过程中的判断，也诚实保留那些尚未想明白的部分。",
-  },
-  {
-    key: "learning",
-    href: "/learning",
-    name: "学习笔记",
-    mark: "02",
-    symbol: "⌁",
-    eyebrow: "LEARNING NOTES",
-    title: "把陌生知识，慢慢说成自己的语言。",
-    note: "知识整理",
-    intro: "围绕现代 C++、游戏客户端和工程实践整理学习路径，让知识能够被检索、复述和真正使用。",
-  },
-  {
-    key: "projects",
-    href: "/projects",
-    name: "个人项目",
-    mark: "03",
-    symbol: "▶",
-    eyebrow: "PERSONAL PROJECTS",
-    title: "把想法做成可以运行、可以体验的作品。",
-    note: "可玩 Demo 与工程实践",
-    intro: "这里展示我的游戏客户端项目、可玩 Demo 与实际开发成果，重点呈现我解决问题和完成交付的能力。",
-  },
-];
-
-export const posts: Post[] = [
-  {
-    category: "学习笔记",
-    title: "游戏客户端 C++：从对象生命周期到工程设计",
-    excerpt: "整理自 Notion「知识库」的 20 个 C++ 主题，并把每个知识点映射到资源管理、事件回调、帧循环性能和客户端架构。",
-    date: "2026.07.13",
-    readTime: "12 分钟",
-    number: "EP. 022",
-    featured: true,
-    href: "#cpp-roadmap",
-  },
-  {
-    category: "求职手记",
-    title: "前端面试地图：从基础到现场",
-    excerpt: "把零散的面试题重新整理成一张可执行的路线图：基础、工程化、浏览器与现场表达。",
-    date: "2026.07.12",
-    readTime: "8 分钟",
-    number: "EP. 021",
-  },
-  {
-    category: "学习笔记",
-    title: "把复杂知识学薄：我的三层笔记法",
-    excerpt: "从原始材料到自己的解释，再到可以复用的清单，让每一轮学习都留下可检索的成果。",
-    date: "2026.06.28",
-    readTime: "6 分钟",
-    number: "EP. 019",
-  },
-  {
-    category: "求职手记",
-    title: "作品集不是项目仓库",
-    excerpt: "用问题、选择和结果讲清一个项目，让招聘者在三分钟内看见你的判断力。",
-    date: "2026.06.20",
-    readTime: "7 分钟",
-    number: "EP. 018",
-  },
-];
 
 export const featuredProject: FeaturedProject = {
   name: "GoGoGhost",

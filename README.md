@@ -1,155 +1,72 @@
-# 佐比麦的个人博客
+# 佐比麦的个人网站
 
-一个使用淡蓝与白色科技视觉的个人主页，用来记录游戏客户端开发、C++ 学习、求职准备和个人项目。
+以游戏客户端求职作品展示为首页主线，文章与系列承载长期知识积累。
 
 ## 在线访问
 
-- 网站地址：[https://lemonlct.github.io/Lemon-vios/](https://lemonlct.github.io/Lemon-vios/)
-- GitHub 仓库：[https://github.com/lemonLCT/Lemon-vios](https://github.com/lemonLCT/Lemon-vios)
+- [GitHub Pages](https://lemonlct.github.io/Lemon-vios/)
+- [GitHub 仓库](https://github.com/lemonLCT/Lemon-vios)
 
-## 主要内容
+## 页面职责
 
-- **游戏客户端 C++ 成长路线**：整理自个人 Notion「知识库」，包含 6 个学习阶段和 20 个核心主题。
-- **求职手记**：记录面试准备、作品集整理和求职过程中的思考。
-- **学习笔记**：沉淀 C++、游戏客户端和工程实践相关知识。
-- **个人项目**：通过视频展示 GoGoGhost 游戏 Demo 与客户端开发实践。
-- **独立内容分区**：求职手记、学习笔记和个人项目分别拥有独立页面。
-- **分区内搜索**：可以在当前内容分区中通过关键词检索文章。
-- **响应式布局**：适配桌面端、平板和手机浏览。
+| 入口 | 职责 | 内容层级 |
+| --- | --- | --- |
+| 首页 `/` | 个人定位、代表项目、能力证据与精选文章 | 摘要链接到详情 |
+| 项目 `/projects` | 作品索引 | 项目卡片 → `/projects/gogoghost` → 功能章节 |
+| 文章 `/articles` | 统一阅读入口 | 分类筛选 → 独立文章，或系列目录 → 章节 |
 
-## C++ 学习路线
+C++、工程实践、求职手记是文章分类，不是独立功能页面。
+筛选通过查询参数保存，例如 `/articles?category=cpp`；搜索使用 `q` 参数。
+系列收在 `/articles/series` 下，用来组织章节顺序和待写主题。
+项目与系列各章节具有稳定锚点，例如 `/projects/gogoghost#weapons`、`/articles/series/cpp-client#topic-05`。
 
-网站中的 C++ 专题按照以下顺序组织：
+旧的 `/learning` 与 `/career` 保留迁移入口，在浏览器中跳转至新位置，不再进入一级导航。
 
-1. 对象与资源管理
-2. 对象模型与回调
-3. STL 与泛型编程
-4. 构建与底层语义
-5. 并发与性能
-6. 工程设计
+## 内容维护
 
-每个知识点都补充了在游戏客户端中的应用场景，例如资源生命周期、事件回调、异步加载、帧循环性能、对象池和模块边界。
+- `app/content.ts`：作者、代表项目和原有 C++ 阶段材料。
+- `app/articles/content.ts`：已发布文章正文、分类、系列顺序与待写手记。
+- `app/articles/[slug]/page.tsx`：文章详情、目录、分类回链、同系列翻页与同类文章。
+- `app/articles/series/`：系列索引、学习阶段和待补充主题。
+- `app/projects/gogoghost/page.tsx`：项目详情与演示。
+- `app/components/`：公共导航、页框、页内目录和旧地址迁移。
+- `app/structure.css`：新结构的布局、字体和移动端适配；保留原站点色彩与公共样式。
 
-> Notion 只作为个人知识来源，线上网站不会直接读取或公开 Notion 页面。需要更新内容时，在项目代码中同步整理后的笔记。
+只有有完整正文的文章才能加入 `articles`。原 C++ 路线说明已整理为一篇路径概览；
+20 个知识主题与原来 3 篇未完成手记只在系列目录显示“正文待补充”。
+新文章加入所属系列的 `articleSlugs` 后，详情页会按该顺序提供前后篇链接。
+项目深入文章发布后，可从对应项目章节建立链接；不要链接到不存在的草稿页面。
 
-## 技术栈
+项目视频展示已有体验，测试代码存在不等于测试已通过。涉及效果、性能或测试结果时，补充对应验证证据再发布。
+目前未提供公开简历或邮箱，使用已确认的 GitHub 账号作为联系入口。
 
-- Next.js 16
-- React 19
-- TypeScript 5
-- Tailwind CSS 4
-- vinext / Vite
-- GitHub Actions
-- GitHub Pages
+## 开发与验证
 
-## 环境要求
-
-- Node.js `>= 22.13.0`
-- npm
-
-建议将 npm 缓存放在 D 盘，以减少 C 盘占用：
+技术栈：Next.js、React、TypeScript、vinext / Vite。Node.js 要求 `>=22.13.0`。
+沿用现有依赖和锁文件。
 
 ```powershell
-$env:npm_config_cache = "D:\Code\environment\npm-cache"
-```
-
-## 本地运行
-
-项目默认保存在：
-
-```text
-D:\Code\OriginCode\LemonLC-Blog
-```
-
-进入项目并安装依赖：
-
-```powershell
-cd D:\Code\OriginCode\LemonLC-Blog
 npm ci
-```
-
-启动开发服务器：
-
-```powershell
 npm run dev
-```
-
-终端会显示本地访问地址，使用浏览器打开即可预览。
-
-## 构建命令
-
-### GitHub Pages 静态构建
-
-```powershell
-npm run build:pages
-```
-
-该命令使用 Next.js 生成静态网站，构建产物位于 `out/` 目录。
-
-### vinext 兼容构建
-
-```powershell
-npm run build
-```
-
-该命令用于验证项目在 vinext / Vite 构建流程下是否正常。
-
-### 代码检查
-
-```powershell
 npm run lint
+npm test
 ```
 
-## 项目结构
-
-```text
-LemonLC-Blog/
-├─ app/
-│  ├─ page.tsx          # 默认个人主页与三个内容分区入口
-│  ├─ content.ts        # 共享内容数据和 C++ 学习路线
-│  ├─ career/           # 求职手记页面
-│  ├─ learning/         # 学习笔记和 C++ 路线页面
-│  ├─ projects/         # 个人项目与 GoGoGhost Demo 页面
-│  ├─ components/       # 共享导航、页脚和分区页面结构
-│  ├─ globals.css       # 全局样式与响应式布局
-│  └─ layout.tsx        # 网站元数据和页面布局
-├─ public/
-│  ├─ media/            # 项目演示视频与封面
-│  └─ og.png            # 社交平台分享预览图
-├─ .github/workflows/
-│  └─ deploy-pages.yml  # GitHub Pages 自动部署流程
-├─ next.config.ts       # Next.js 与 GitHub Pages 路径配置
-├─ package.json         # 依赖和项目命令
-└─ README.md
-```
-
-## 更新网站内容
-
-主要内容集中在 `app/content.ts`：
-
-- `cppStages`：C++ 学习路线、主题说明和游戏客户端应用场景。
-- `posts`：最近更新中的文章列表。
-- `channels`：网站三个内容分区及其路由。
-
-视觉样式和移动端适配位于 `app/globals.css`。修改完成后，建议先运行：
+GitHub Pages 会在 Actions 中构建静态站点。本地等价检查：
 
 ```powershell
+$env:GITHUB_ACTIONS = "true"
+$env:GITHUB_REPOSITORY = "lemonLCT/Lemon-vios"
 npm run build:pages
+node --test tests/static-links.test.mjs
 ```
 
-构建通过后再提交代码。
+这些环境变量只在当前 PowerShell 进程生效。开发或构建 Sites 前，使用未设置这些变量的新终端。
+静态检查覆盖页面、章节锚点、图片和视频的仓库前缀路径。
+`npm test` 构建 Worker 并检查三个导航入口、页面职责、文章发布门槛及旧地址兼容。
 
-## 自动部署
+## 发布
 
-项目使用 GitHub Actions 发布到 GitHub Pages：
-
-1. 将代码推送到 `main` 分支。
-2. GitHub Actions 自动安装依赖并执行 `npm run build:pages`。
-3. `out/` 中的静态文件会自动发布到 GitHub Pages。
-4. 部署成功后，可通过网站地址访问最新版本。
-
-也可以在 GitHub 仓库的 **Actions** 页面手动运行部署工作流。
-
-## 作者
-
-佐比麦 —— 正在学习 C++ 与游戏客户端开发，也在持续记录项目和作品。
+推送 `main` 后，GitHub Actions 将 `out/` 发布到 GitHub Pages。
+Sites 沿用 `.openai/hosting.json` 的现有站点，使用 `npm run build` 的 Worker 产物。
+两种构建保留各自的路径配置，不修改现有托管受众。
