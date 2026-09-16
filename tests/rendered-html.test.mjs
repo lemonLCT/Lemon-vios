@@ -28,10 +28,11 @@ for (const [path, marker] of routes) {
   });
 }
 
-test("keeps project video and module chapters on the detail page", async () => {
+test("shows the ORCA demo and keeps GoGoGhost module chapters on its detail page", async () => {
   const list = await (await render("/projects")).text();
   const detail = await (await render("/projects/gogoghost")).text();
-  assert.doesNotMatch(list, /<video/);
+  assert.match(list, /src="\/media\/orca-pathfinding-demo.mp4"/);
+  assert.match(list, /ORCA 游戏寻路演示/);
   assert.match(list, /href="\/projects\/gogoghost"/);
   assert.match(detail, /src="\/media\/gogoghost-demo.mp4"/);
   for (const id of ["combat", "interface", "save", "weapons", "hud"]) assert.ok(detail.includes(`id="${id}"`));
