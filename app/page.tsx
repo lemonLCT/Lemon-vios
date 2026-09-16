@@ -21,6 +21,7 @@ export default function Home() {
             <div className="action-row">
               <Link className="solid-link" href="/projects/gogoghost">查看代表项目 →</Link>
               <Link className="quiet-link" href="/articles">阅读文章</Link>
+              <Link className="quiet-link" href="/about">了解更多关于我</Link>
             </div>
           </div>
           <Image className="profile-portrait" src={profileAvatar} alt={`${authorName}的头像`} sizes="(max-width: 760px) 160px, 280px" unoptimized preload />

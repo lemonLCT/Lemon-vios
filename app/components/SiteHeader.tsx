@@ -2,7 +2,7 @@ import Link from "next/link";
 import { authorName } from "../content";
 
 type SiteHeaderProps = {
-  active: "home" | "projects" | "articles";
+  active: "home" | "projects" | "articles" | "about";
 };
 
 export default function SiteHeader({ active }: SiteHeaderProps) {
@@ -18,7 +18,7 @@ export default function SiteHeader({ active }: SiteHeaderProps) {
 
       <nav aria-label="主导航">
         <Link href="/" aria-current={active === "home" ? "page" : undefined}>首页</Link>
-        {([{ key: "projects", href: "/projects", name: "项目" }, { key: "articles", href: "/articles", name: "文章" }] as const).map((channel) => (
+        {([{ key: "projects", href: "/projects", name: "项目" }, { key: "articles", href: "/articles", name: "文章" }, { key: "about", href: "/about", name: "关于我" }] as const).map((channel) => (
           <Link
             key={channel.key}
             href={channel.href}

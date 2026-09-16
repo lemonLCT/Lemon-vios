@@ -9,24 +9,39 @@ async function render(pathname) {
 }
 const routes = [
   ["/", "查看代表项目"], ["/projects", "个人作品"],
+  ["/about", "在技术与想象之间持续探索"],
   ["/projects/gogoghost", "存档与单局流程"], ["/articles", "已发布文章"],
   ["/articles/cpp-client-overview", "客户端应用"], ["/articles/series", "学习与求职手记"],
   ["/articles/series/cpp-client", "正文待补充"], ["/articles/series/practice-notes", "作品集不是项目仓库"],
 ];
 
 for (const [path, marker] of routes) {
-  test(`renders ${path} with the three primary navigation entries`, async () => {
+  test(`renders ${path} with the four primary navigation entries`, async () => {
     const response = await render(path);
     assert.equal(response.status, 200);
     const html = await response.text();
     assert.ok(html.includes(marker), marker);
     const nav = html.match(/<nav aria-label="主导航">([\s\S]*?)<\/nav>/)?.[1];
     assert.ok(nav);
-    assert.equal([...nav.matchAll(/<a\b/g)].length, 3);
-    for (const href of ["/", "/projects", "/articles"]) assert.ok(nav.includes(`href="${href}"`));
+    assert.equal([...nav.matchAll(/<a\b/g)].length, 4);
+    for (const href of ["/", "/projects", "/articles", "/about"]) assert.ok(nav.includes(`href="${href}"`));
     assert.equal([...nav.matchAll(/aria-current="page"/g)].length, 1);
   });
 }
+
+test("restores personal content in a separate about page", async () => {
+  const about = await (await render("/about")).text();
+  for (const text of ["慢一点也没关系，重要的是一直在写下一页。", "我相信复盘是为了让下一次选择更清醒", "求职准备中", "下一页，正在书写。"])
+    assert.ok(about.includes(text));
+  for (const id of ["introduction", "beliefs", "now", "next-chapter"]) {
+    assert.ok(about.includes(`id="${id}"`));
+    assert.ok(about.includes(`href="#${id}"`));
+  }
+  const home = await (await render("/")).text();
+  assert.match(home, /href="\/about"/);
+  const primaryLinks = home.match(/<a\b[^>]*class="solid-link"[^>]*>/g) ?? [];
+  assert.ok(primaryLinks.some((link) => link.includes('href="/projects/gogoghost"')));
+});
 
 test("shows the ORCA demo and keeps GoGoGhost module chapters on its detail page", async () => {
   const list = await (await render("/projects")).text();

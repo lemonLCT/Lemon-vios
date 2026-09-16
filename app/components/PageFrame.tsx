@@ -4,7 +4,7 @@ import SiteHeader from "./SiteHeader";
 import SiteFooter from "./SiteFooter";
 
 export default function PageFrame({ active, title, intro, breadcrumbs = [], children }: {
-  active: "projects" | "articles";
+  active: "projects" | "articles" | "about";
   title: string;
   intro: string;
   breadcrumbs?: { label: string; href: string }[];
@@ -20,7 +20,7 @@ export default function PageFrame({ active, title, intro, breadcrumbs = [], chil
           {breadcrumbs.map((item) => <span key={item.href}> / <Link href={item.href}>{item.label}</Link></span>)}
           <span aria-current="page"> / {title}</span>
         </nav>
-        <p className="section-kicker">{active === "projects" ? "PROJECTS" : "ARTICLES"}</p>
+        <p className="section-kicker">{{ projects: "PROJECTS", articles: "ARTICLES", about: "ABOUT ME" }[active]}</p>
         <h1>{title}</h1><p>{intro}</p>
       </header>
       {children}
